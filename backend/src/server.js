@@ -7,6 +7,7 @@ import bodyParser from "body-parser";
 import { Totp } from "time2fa";
 import "dotenv/config";
 import dbConnect from "./config/dbConnect.js";
+import authRoutes from "./routes/authRoutes.js";
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use(bodyParser.json());
 let userSecrets = {};
 
 // Routes
+app.use("/api/auth", authRoutes);
 
 app.post("/generate-2fa", (req, res) => {
   const { username } = req.body;
