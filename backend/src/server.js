@@ -6,8 +6,11 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import { Totp } from "time2fa";
 import "dotenv/config";
+import dbConnect from "./config/dbConnect.js";
 
 const app = express();
+
+dbConnect();
 
 // Middleware
 app.use(json({ limit: "100mb" }));
