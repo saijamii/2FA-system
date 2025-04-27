@@ -1,23 +1,39 @@
 // server.js
-import express from "express";
-import { Totp } from "time2fa";
+import express, { json, urlencoded } from "express";
+import session from "express-session";
+import passport from "passport";
 import cors from "cors";
 import bodyParser from "body-parser";
+import { Totp } from "time2fa";
+import "dotenv/config";
 
 const app = express();
-const port = 5000;
 
+// Middleware
+app.use(json({ limit: "100mb" }));
+app.use(urlencoded({ limit: "100mb", extended: true }));
 app.use(cors());
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "my-session-secret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 6000 * 60,
+    },
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(bodyParser.json());
 
-// Store user data here (in a real app, you would store this in a database)
 let userSecrets = {};
 
-// Endpoint to generate 2FA secret and QR code
+// Routes
+
 app.post("/generate-2fa", (req, res) => {
   const { username } = req.body;
 
-  // Generate a new secret key for the user
   const key = Totp.generateKey({ issuer: "sai", user: username });
 
   userSecrets[username] = key;
@@ -28,7 +44,6 @@ app.post("/generate-2fa", (req, res) => {
   });
 });
 
-// Endpoint to verify the OTP
 app.post("/verify-2fa", (req, res) => {
   try {
     const { username, token } = req.body;
@@ -67,6 +82,8 @@ app.post("/verify-2fa", (req, res) => {
   }
 });
 
+// Listen app
+const port = process.env.PORT || 7001;
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
