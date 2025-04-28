@@ -8,7 +8,7 @@ import { Totp } from "time2fa";
 import "dotenv/config";
 import dbConnect from "./config/dbConnect.js";
 import authRoutes from "./routes/authRoutes.js";
-
+import "./config/passportConfig.js";
 const app = express();
 
 dbConnect();

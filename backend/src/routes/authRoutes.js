@@ -14,7 +14,7 @@ const router = Router();
 
 router.post("/register", register); // Registration Route
 
-router.post("/login", login); // Login Route
+router.post("/login", passport.authenticate("local"), login); // Login Route
 
 router.post("/logout", logout); // Logout Route
 
