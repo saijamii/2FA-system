@@ -10,23 +10,38 @@ export default function LoginForm() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
+  const resetForm = () => {
+    setUsername("");
+    setPassword("");
+    setConfirmPassword("");
+  };
+
+  const handleRegisterToggle = () => {
+    setIsRegister(!isRegister);
+    resetForm();
+    setError("");
+    setMessage("");
+  };
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
       const { data } = await register(username, password);
-      setIsRegister(false);
       setMessage(data.message);
-      setUsername("");
-      setPassword("");
-      setConfirmPassword("");
+      setIsRegister(!isRegister);
+      resetForm();
     } catch (error) {
       console.log("The Error is : ", error.message);
       setError("something went wrong during user registration");
+      resetForm();
     }
-    console.log(e);
   };
-  const handleLogin = (e) => {
-    console.log(e);
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+    } catch (error) {
+      console.log("The Error is : ", error.message);
+      setError("something went wrong during user login");
+    }
   };
 
   return (
@@ -88,7 +103,7 @@ export default function LoginForm() {
         </div>
       )}
       {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
-      {message && <p className="text-red-600 text-sm mb-3">{message}</p>}
+      {message && <p className="text-green-600 text-sm mb-3">{message}</p>}
       <button
         type="submit"
         className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors"
@@ -104,7 +119,7 @@ export default function LoginForm() {
 
           <Link
             onClick={() => {
-              setIsRegister(!isRegister);
+              handleRegisterToggle();
             }}
             className="text-blue-600"
           >
