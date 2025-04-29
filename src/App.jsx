@@ -1,11 +1,10 @@
 import React from "react";
-import TwoFactorAuth from "./components/TwoFactorAuth";
 
 function App() {
   return (
-    <div  >
-      <TwoFactorAuth />
-    </div>
+    <>
+      <h1 class="text-3xl font-bold">Hello world!</h1>
+    </>
   );
 }
 
