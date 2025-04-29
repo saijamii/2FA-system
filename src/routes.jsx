@@ -29,8 +29,8 @@ const router = createBrowserRouter([
       },
       {
         path: "/verify-2fa",
-        element: <LoginPage />,
-        errorElement: <Verify2FA />,
+        element: <Verify2FA />,
+        errorElement: <Error />,
       },
     ],
   },
