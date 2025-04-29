@@ -2,7 +2,7 @@ import { loginUser, register } from "@/service/authApi";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function LoginForm() {
+export default function LoginForm({ onLoginSuccess }) {
   const [isRegister, setIsRegister] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -22,6 +22,7 @@ export default function LoginForm() {
     setError("");
     setMessage("");
   };
+
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
@@ -29,20 +30,27 @@ export default function LoginForm() {
       setMessage(data.message);
       setIsRegister(!isRegister);
       resetForm();
+      setError("");
     } catch (error) {
       console.log("The Error is : ", error.message);
       setError("something went wrong during user registration");
       resetForm();
+      setMessage("");
     }
   };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const { data } = await loginUser(username, password);
+      onLoginSuccess(data);
       resetForm();
+      setError("");
     } catch (error) {
       console.log("The Error is : ", error.message);
       setError("Invalid login");
+      resetForm();
+      setMessage("");
     }
   };
 
