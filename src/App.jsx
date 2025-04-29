@@ -1,10 +1,16 @@
-import React from "react";
+import React, { Suspense } from "react";
+import { RouterProvider } from "react-router-dom";
+import router from "./routes";
 
 function App() {
   return (
-    <>
-      <h1 class="text-3xl font-bold">Hello world!</h1>
-    </>
+    <div className="bg-slate-500 h-screen">
+      <div className="flex justify-center items-center h-screen">
+        <Suspense fallback={<>Loading...</>}>
+          <RouterProvider router={router} />
+        </Suspense>
+      </div>
+    </div>
   );
 }
 
