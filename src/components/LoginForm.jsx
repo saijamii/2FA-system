@@ -1,4 +1,4 @@
-import { register } from "@/service/authApi";
+import { loginUser, register } from "@/service/authApi";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -38,9 +38,11 @@ export default function LoginForm() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
+      const { data } = await loginUser(username, password);
+      resetForm();
     } catch (error) {
       console.log("The Error is : ", error.message);
-      setError("something went wrong during user login");
+      setError("Invalid login");
     }
   };
 
@@ -123,7 +125,7 @@ export default function LoginForm() {
             }}
             className="text-blue-600"
           >
-            {isRegister ? "Register" : "Log In"}
+            {isRegister ? "Log In" : "Register"}
           </Link>
         </p>
       </div>

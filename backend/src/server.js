@@ -11,12 +11,17 @@ import authRoutes from "./routes/authRoutes.js";
 import "./config/passportConfig.js";
 const app = express();
 
+const corsOptions = {
+  origin: ["http://localhost:3001"],
+  credentials: true,
+};
+
 dbConnect();
 
 // Middleware
 app.use(json({ limit: "100mb" }));
 app.use(urlencoded({ limit: "100mb", extended: true }));
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "my-session-secret",
