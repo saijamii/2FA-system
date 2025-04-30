@@ -1,11 +1,25 @@
-import React, { useState } from "react";
+import { setup2FA } from "@/service/authApi";
+import React, { useEffect, useState } from "react";
 
 export default function TwoFASetup({ onSetupComplete }) {
   const [message, setMessage] = useState("");
+  const [response, setResponse] = useState({});
+
+  const fetchQRCode = async () => {
+    const { data } = await setup2FA();
+    setResponse(data);
+    console.log(data, "data");
+  };
+
+  useEffect(() => {
+    fetchQRCode();
+  }, []);
+
   const copyClipBoard = async () => {
-    await navigator.clipboard.writeText();
+    await navigator.clipboard.writeText(response.secret);
     setMessage("Secret copied to clipboard!");
   };
+
   return (
     <div className="bg-white rounded-md p-4">
       <h2 className="text-xl text-center font-medium mb-4">Enable 2FA</h2>
@@ -13,7 +27,11 @@ export default function TwoFASetup({ onSetupComplete }) {
         Scan the QR code using your authenticator app
       </p>
       <div className="flex justify-center mb-4">
-        <img alt="2FA QR code" className="w-40 h-40 border rounded-sm" />
+        <img
+          alt="2FA QR code"
+          className="w-40 h-40 border rounded-sm"
+          src={response.qrCode}
+        />
       </div>
       <div className="flex items-center text-xs text-gray-500">
         <div className="flex-grow border-t"></div>
@@ -25,7 +43,7 @@ export default function TwoFASetup({ onSetupComplete }) {
         <input
           readOnly
           defaultValue=""
-          value=""
+          value={response.secret}
           className="w-full rounded mt-2 text-xs text-gray-600 p-4 "
           onClick={copyClipBoard}
         />
