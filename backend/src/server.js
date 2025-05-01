@@ -4,7 +4,6 @@ import session from "express-session";
 import passport from "passport";
 import cors from "cors";
 import bodyParser from "body-parser";
-import { Totp } from "time2fa";
 import "dotenv/config";
 import dbConnect from "./config/dbConnect.js";
 import authRoutes from "./routes/authRoutes.js";
@@ -12,7 +11,7 @@ import "./config/passportConfig.js";
 const app = express();
 
 const corsOptions = {
-  origin: ["http://localhost:3001"],
+  origin: ["http://localhost:3001", "https://twofa-system-38o5.onrender.com"],
   credentials: true,
 };
 
