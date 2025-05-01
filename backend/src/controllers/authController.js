@@ -36,18 +36,24 @@ export const login = async (req, res) => {
   });
 };
 
-export const logout = async (req, res) => {
+export const logout = async (req, res, next) => {
   if (!req.user)
     res.status(401).json({
       message: "Unauthorized user",
     });
   req.logout((err) => {
-    if (err)
-      return res.status(400).json({
-        message: "user not logged in",
+    if (err) {
+      return next(err);
+    }
+    req.session.destroy((err) => {
+      if (err) {
+        return next(err);
+      }
+      // clearing cookie
+      res.clearCookie("connect.sid");
+      res.status(200).json({
+        message: "Logged out successfully",
       });
-    res.status(200).json({
-      message: "Logout successful",
     });
   });
 };
