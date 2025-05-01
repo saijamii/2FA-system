@@ -23,6 +23,9 @@ router.get("/status", authStatus); // Auth Status Route
 router.post(
   "/2fa/setup",
   (req, res, next) => {
+    console.log("Is Authenticated:", req.isAuthenticated?.());
+    console.log("Session:", req.session);
+    console.log("User:", req.user);
     if (req.isAuthenticated()) {
       return next();
     }

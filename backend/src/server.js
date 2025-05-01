@@ -28,14 +28,14 @@ app.use(
     saveUninitialized: false,
     cookie: {
       maxAge: 6000 * 60,
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: true,
     },
   })
 );
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.json());
-
-let userSecrets = {};
 
 // Routes
 app.use("/api/auth", authRoutes);
