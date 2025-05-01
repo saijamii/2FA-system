@@ -27,11 +27,13 @@ export default function TwoFASetup({ onSetupComplete }) {
         Scan the QR code using your authenticator app
       </p>
       <div className="flex justify-center mb-4">
-        <img
-          alt="2FA QR code"
-          className="w-40 h-40 border rounded-sm"
-          src={response.qrCode}
-        />
+        {response.qrCode && (
+          <img
+            alt="2FA QR code"
+            className="w-40 h-40 border rounded-sm"
+            src={response.qrCode}
+          />
+        )}
       </div>
       <div className="flex items-center text-xs text-gray-500">
         <div className="flex-grow border-t"></div>
