@@ -1,4 +1,4 @@
-import { lazy } from "react";
+import React, { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import Error from "./pages/Error";
 import ProtectedRoute from "./components/ProtectedRoute";

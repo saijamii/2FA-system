@@ -1,4 +1,5 @@
 import { setup2FA } from "@/service/authApi";
+import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 
 export default function TwoFASetup({ onSetupComplete }) {
@@ -8,7 +9,6 @@ export default function TwoFASetup({ onSetupComplete }) {
   const fetchQRCode = async () => {
     const { data } = await setup2FA();
     setResponse(data);
-    console.log(data, "data");
   };
 
   useEffect(() => {
@@ -59,3 +59,7 @@ export default function TwoFASetup({ onSetupComplete }) {
     </div>
   );
 }
+
+TwoFASetup.propTypes = {
+  onSetupComplete: PropTypes.func.isRequired,
+};

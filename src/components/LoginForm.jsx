@@ -1,6 +1,7 @@
 import { loginUser, register } from "@/service/authApi";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 export default function LoginForm({ onLoginSuccess }) {
   const [isRegister, setIsRegister] = useState(false);
@@ -140,3 +141,7 @@ export default function LoginForm({ onLoginSuccess }) {
     </form>
   );
 }
+
+LoginForm.propTypes = {
+  onLoginSuccess: PropTypes.func.isRequired,
+};
