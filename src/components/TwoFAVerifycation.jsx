@@ -1,5 +1,6 @@
 import { reset2FA, verify2FA } from "@/service/authApi";
 import React, { useState } from "react";
+import OtpInput from "./OtpInput";
 
 export default function TwoFAVerifycation({ onVerifySucess, onResetSucess }) {
   const [otp, setOtp] = useState("");
@@ -39,21 +40,12 @@ export default function TwoFAVerifycation({ onVerifySucess, onResetSucess }) {
         Please enter 6-digit Time based OTP to Verify 2FA Authentication
       </p>
       <div className="p-6">
-        <div className="mb-4">
+        <div className="mb-4 mt-4">
           <label className="block text-gray-700 mb-2" htmlFor="TOTP">
             TOTP
           </label>
-          <input
-            type="text"
-            id="TOTP"
-            name="TOTP"
-            required
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            label="TOTP"
-            onChange={(e) => setOtp(e.target.value)}
-            value={otp}
-            placeholder="Enter your TOTP"
-          />
+
+          <OtpInput />
         </div>
 
         {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
