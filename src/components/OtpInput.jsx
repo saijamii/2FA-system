@@ -56,6 +56,20 @@ export default function OtpInput({ submitOtp }) {
     }
   };
 
+  const handleOnPaste = (e) => {
+    e.preventDefault();
+    const pasted = e.clipboardData
+      .getData("text")
+      .replace(/\D/g, "")
+      .slice(0, OTP_DIGIT_COUNT);
+    const newArr = [...inputArr];
+    for (let i = 0; i < pasted.length; i++) {
+      newArr[i] = pasted[i];
+      arrRef?.current[i]?.focus();
+    }
+    setInputArr(newArr);
+  };
+
   return (
     <>
       <div className="flex flex-row w-md">
@@ -65,10 +79,11 @@ export default function OtpInput({ submitOtp }) {
             ref={(input) => {
               arrRef.current[index] = input;
             }}
-            className="h-12 w-12 text-3xl text-center m-0.2 border"
+            className="h-12 w-12 text-3xl text-center m-0.5 border border-gray-800 rounded-sm text-blue-500"
             value={inputArr[index]}
             onChange={(e) => handleOnchange(e.target.value, index)}
             onKeyDown={(e) => handleOnKeyDown(e, index)}
+            onPaste={handleOnPaste}
           />
         ))}
       </div>
