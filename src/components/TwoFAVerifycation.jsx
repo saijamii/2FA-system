@@ -1,18 +1,16 @@
 import { reset2FA, verify2FA } from "@/service/authApi";
 import React, { useState } from "react";
 import OtpInput from "./OtpInput";
+import PropTypes from "prop-types";
 
 export default function TwoFAVerifycation({ onVerifySucess, onResetSucess }) {
-  const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
 
-  const handleTokenVerification = async (e) => {
-    e.preventDefault();
+  const handleTokenVerification = async (otp) => {
     try {
       const { data } = await verify2FA(otp);
       onVerifySucess(data);
     } catch (error) {
-      setOtp("");
       console.log("The err is : ", error.message);
       setError("invalid OTP");
     }
@@ -21,7 +19,7 @@ export default function TwoFAVerifycation({ onVerifySucess, onResetSucess }) {
   const handleReset = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await reset2FA(otp);
+      const { data } = await reset2FA();
       onResetSucess(data);
     } catch (error) {
       console.log("The err is : ", error.message);
@@ -45,16 +43,11 @@ export default function TwoFAVerifycation({ onVerifySucess, onResetSucess }) {
             TOTP
           </label>
 
-          <OtpInput />
+          <OtpInput submitOtp={handleTokenVerification} />
         </div>
 
         {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors mb-3"
-        >
-          Verify OTP
-        </button>
+
         <button
           className="w-full bg-slate-600 text-white py-2 rounded-md "
           onClick={handleReset}
@@ -65,3 +58,8 @@ export default function TwoFAVerifycation({ onVerifySucess, onResetSucess }) {
     </form>
   );
 }
+
+TwoFAVerifycation.propTypes = {
+  onVerifySucess: PropTypes.func.isRequired,
+  onResetSucess: PropTypes.func.isRequired,
+};
