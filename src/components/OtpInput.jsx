@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 
-export default function OtpInput({ submitOtp }) {
+export default function OtpInput({ submitOtp, loading }) {
   const OTP_DIGIT_COUNT = 6;
   const [inputArr, setInputArr] = useState(new Array(OTP_DIGIT_COUNT).fill(""));
   const [error, setError] = useState(null);
@@ -92,6 +92,7 @@ export default function OtpInput({ submitOtp }) {
         <button
           className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors mb-3"
           onClick={handleVerify}
+          disabled={loading}
         >
           Verify OTP
         </button>
@@ -102,4 +103,5 @@ export default function OtpInput({ submitOtp }) {
 
 OtpInput.propTypes = {
   submitOtp: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
 };

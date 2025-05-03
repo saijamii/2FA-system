@@ -8,7 +8,6 @@ export default function LoginPage() {
   const { login } = useSession();
 
   const handleLoginSuccess = (loggedInUserData) => {
-    console.log(loggedInUserData, "loggedInUserData");
     login(loggedInUserData);
     if (!loggedInUserData.isMfaActive) {
       navigate("/setup-2fa");

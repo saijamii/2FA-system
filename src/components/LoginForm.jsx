@@ -10,6 +10,7 @@ export default function LoginForm({ onLoginSuccess }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const resetForm = () => {
     setUsername("");
@@ -27,6 +28,7 @@ export default function LoginForm({ onLoginSuccess }) {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const { data } = await register(username, password);
       setMessage(data.message);
       setIsRegister(!isRegister);
@@ -37,12 +39,15 @@ export default function LoginForm({ onLoginSuccess }) {
       setError("something went wrong during user registration");
       resetForm();
       setMessage("");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const { data } = await loginUser(username, password);
       onLoginSuccess(data);
       resetForm();
@@ -52,6 +57,8 @@ export default function LoginForm({ onLoginSuccess }) {
       setError("Invalid login");
       resetForm();
       setMessage("");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -118,6 +125,7 @@ export default function LoginForm({ onLoginSuccess }) {
       <button
         type="submit"
         className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors"
+        disabled={loading}
       >
         {isRegister ? "Register" : "Log In"}
       </button>

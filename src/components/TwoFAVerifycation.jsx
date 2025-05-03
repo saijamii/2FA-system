@@ -5,25 +5,32 @@ import PropTypes from "prop-types";
 
 export default function TwoFAVerifycation({ onVerifySucess, onResetSucess }) {
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleTokenVerification = async (otp) => {
     try {
+      setLoading(true);
       const { data } = await verify2FA(otp);
       onVerifySucess(data);
     } catch (error) {
       console.log("The err is : ", error.message);
       setError("invalid OTP");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleReset = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const { data } = await reset2FA();
       onResetSucess(data);
     } catch (error) {
       console.log("The err is : ", error.message);
       setError("invalid OTP");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -43,7 +50,7 @@ export default function TwoFAVerifycation({ onVerifySucess, onResetSucess }) {
             TOTP
           </label>
 
-          <OtpInput submitOtp={handleTokenVerification} />
+          <OtpInput submitOtp={handleTokenVerification} loading={loading} />
         </div>
 
         {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
@@ -51,6 +58,7 @@ export default function TwoFAVerifycation({ onVerifySucess, onResetSucess }) {
         <button
           className="w-full bg-slate-600 text-white py-2 rounded-md "
           onClick={handleReset}
+          disabled={loading}
         >
           Reset 2FA
         </button>
